@@ -88,3 +88,20 @@ def test_ablation_button_runs(project, monkeypatch):
     at.button(key="abl_btn").click().run()
     assert not at.exception, at.exception
     assert any("without age" in m.value for m in at.markdown)
+
+
+def test_clinical_notes_tab_free_text_and_empty_state(project, monkeypatch):
+    at = _run("render_labs_notes_reports", monkeypatch)
+    assert not at.exception, at.exception
+    markdown_texts = [m.value for m in at.markdown]
+    assert any("Not available in this deployment" in t for t in markdown_texts)
+    # Verify free-text area exists with requested label
+    assert at.text_area(key="note_text_in") is not None
+    assert at.text_area(key="note_text_in").label == "Paste any note text to see the rule-based extraction. No data is stored or sent anywhere."
+    # Verify no preset scenario selector exists
+    assert not any(sb.key == "note_preset" for sb in at.selectbox)
+    # Type custom text and verify extraction works
+    at.text_area(key="note_text_in").input("Patient with chest pain, palpitations and hypertension.").run()
+    assert not at.exception, at.exception
+    updated_markdown = " ".join(m.value for m in at.markdown)
+    assert "Identified Cardiology Mentions" in updated_markdown

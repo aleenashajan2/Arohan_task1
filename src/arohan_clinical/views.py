@@ -731,7 +731,7 @@ def render_labs_notes_reports() -> None:
         note_files = notes.find_notes_files(paths)
         if not note_files:
             ui.empty_state(
-                "Clinical Notes not found",
+                "Not available in this deployment",
                 "Demo data is not available in this deployment. See the project report for results."
             )
         else:
@@ -763,13 +763,12 @@ def render_labs_notes_reports() -> None:
         st.markdown("#### Interactive Clinical Note Analyzer (Rule-Based NLP & Weak Labeling)")
         st.caption("Demonstration of the transparent cardiology mention extractor and weak-label derivation algorithm on clinical consultations:")
 
-        sample_presets = {
-            "Acute Coronary Syndrome": "56-year-old male presents with retrosternal chest pain radiating to left shoulder and jaw, associated with diaphoresis and breathlessness for 3 hours. Known history of hypertension and type 2 diabetes. Prescribed loading dose of aspirin and atorvastatin. Transferred to cath lab for suspected acute myocardial infarction.",
-            "Chronic Heart Failure": "68-year-old female with long-standing dyspnea on exertion, paroxysmal nocturnal dyspnea, and bilateral pitting pedal edema. Prior history of coronary artery disease with stent in LAD. Current medications include furosemide, ramipril, and metoprolol.",
-            "Non-Cardiac Presentation": "34-year-old patient complaining of severe burning epigastric pain, nausea, and acid reflux after meals. No chest tightness, no breathlessness, no palpitations. Diagnosed with acute gastritis, prescribed pantoprazole and antacids.",
-        }
-        preset_choice = st.selectbox("Choose clinical consultation scenario", list(sample_presets.keys()), key="note_preset")
-        note_input = st.text_area("Clinical consultation transcript / notes", value=sample_presets[preset_choice], height=120, key="note_text_in")
+        note_input = st.text_area(
+            "Paste any note text to see the rule-based extraction. No data is stored or sent anywhere.",
+            value="",
+            height=120,
+            key="note_text_in",
+        )
 
         if note_input:
             mentions = notes.extract_cardiac_mentions(note_input)

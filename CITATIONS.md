@@ -22,6 +22,11 @@ This document records the formal citations, licenses, and terms of use for all d
 - **Permitted Use**: Research and development with attribution and share-alike terms.
 - **Attribution Note**: Explicit attribution to Eka Care and IndiaAI.
 
+### 2.1 Derived Demo Sample (`data/demo/labs_cardiometabolic_sample.parquet`)
+- **Origin**: Derived directly from `ekacare/NidaanKosha-100k-V1.0` (sampling 25,000 cardiometabolic test readings with fixed random seed `42`).
+- **License**: Creative Commons Attribution-ShareAlike 4.0 International ([CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/)).
+- **ShareAlike Notice**: Under CC BY-SA 4.0 terms, any derivative works, adaptations, or downstream distributions must retain this attribution to Eka Care & IndiaAI and must be shared under identical CC BY-SA 4.0 licensing.
+
 ---
 
 ## 3. Eka Clinical Note Generation Dataset (Pending User Auth / Consent)

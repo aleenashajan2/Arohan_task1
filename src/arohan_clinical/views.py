@@ -76,15 +76,10 @@ def get_context() -> Context | None:
 def require_context() -> Context | None:
     ctx = get_context()
     if ctx is None:
-        paths, _ = _locate()
         ui.empty_state(
             "Dataset not found",
-            f"No CSV file was found in <code>{paths.raw}</code>.<br><br>"
-            f"1. Open <a href='{config.SOURCE_URL}' style='color:#38BDF8'>{config.SOURCE_URL}</a><br>"
-            "2. Click <b>Download All</b> (a ZIP) or download the CSV file, and extract the CSV.<br>"
-            f"3. Copy the CSV into <code>{paths.raw}</code> (keep the original filename; do not edit it).<br>"
-            "4. Reload this page (press <b>R</b> or refresh the browser).<br><br>"
-            "No synthetic or substitute data is used when the file is missing.")
+            "Demo data is not available in this deployment. See the project report for results."
+        )
     return ctx
 
 
@@ -668,24 +663,21 @@ def render_labs_notes_reports() -> None:
     # TAB 1: Labs (NidaanKosha)
     with tabs[0]:
         st.markdown("### Laboratory Investigation Reports (NidaanKosha 100k)")
-        lab_files = labs.find_nidaankosha_files(paths)
-        if not lab_files:
+        lab_file, is_demo = labs.get_active_labs_source(paths)
+        if not lab_file:
             ui.empty_state(
                 "NidaanKosha dataset not found",
-                f"No parquet files were found in <code>{paths.raw_labs}</code>.<br><br>"
-                "<b>Download instructions:</b><br>"
-                "1. Open <a href='https://huggingface.co/datasets/ekacare/NidaanKosha-100k-V1.0' target='_blank' style='color:#38BDF8'>ekacare/NidaanKosha-100k-V1.0</a> or AIKosh.<br>"
-                "2. Download <code>train-00000-of-00002.parquet</code> and <code>train-00001-of-00002.parquet</code>.<br>"
-                f"3. Place them in <code>{paths.raw_labs / 'data'}</code>.<br>"
-                "4. Refresh this page to activate the laboratory reports module."
+                "Demo data is not available in this deployment. See the project report for results."
             )
         else:
-            first_file = lab_files[0]
-            cleaned, stats, matrix, discovery = _load_labs_sample_cached(str(first_file), max_rows=40000)
+            cleaned, stats, matrix, discovery = _load_labs_sample_cached(str(lab_file), max_rows=40000)
+
+            readings_val = f"Demo sample: {len(cleaned):,} of 6,844,304 readings" if is_demo else "6,844,304"
+            readings_hint = "Sampled with fixed seed 42 (CC-BY-SA-4.0)" if is_demo else "Across 2 parquet files (V1.0)"
 
             ui.metric_row([
-                {"label": "Total Readings", "value": "6,844,304", "hint": "Across 2 parquet files (V1.0)"},
-                {"label": "Lab reports", "value": "100,000", "hint": "Diverse diagnostic centers in India"},
+                {"label": "Total Readings", "value": readings_val, "hint": readings_hint, "tone": "warning" if is_demo else "primary"},
+                {"label": "Lab reports", "value": f"{len(matrix):,}" if is_demo else "100,000", "hint": "Sampled reports" if is_demo else "Diverse diagnostic centers in India"},
                 {"label": "Extraction Method", "value": "Vision LLM", "hint": "Parrotlet AI from reports & PDFs"},
                 {"label": "Licence", "value": "CC-BY-SA-4.0", "hint": "Open research dataset", "tone": "success"},
                 {"label": "Diagnostic Labels", "value": "None (Unlabeled)", "hint": "Unsupervised profiling only", "tone": "warning"},
@@ -738,18 +730,10 @@ def render_labs_notes_reports() -> None:
         st.markdown("### Clinical Notes & Medical Scribing (Eka Care)")
         note_files = notes.find_notes_files(paths)
         if not note_files:
-            ui.notice(
-                "Access Status: Pending User Authentication & Agreement on Hugging Face / AIKosh.<br>"
-                "The Eka Clinical Note Generation Dataset is a gated repository requiring user login and terms acceptance.",
-                "warning", "Dataset Gated"
+            ui.empty_state(
+                "Clinical Notes not found",
+                "Demo data is not available in this deployment. See the project report for results."
             )
-            st.markdown("""
-#### Manual Download & Access Guide:
-1. **Visit repository**: Navigate to [ekacare/clinical_note_generation_dataset](https://huggingface.co/datasets/ekacare/clinical_note_generation_dataset) or [AIKosh Clinical Notes](https://aikosh.indiaai.gov.in/home/datasets/details/eka_clinical_note_generation_dataset.html).
-2. **Log In & Consent**: Click **Log in to access repository** and accept the terms of use.
-3. **Local Placement**: In your terminal, run `hf auth login` (or download `test-00000.parquet`), and save files into `data/raw/notes/`.
-4. **Automatic Discovery**: Once placed in `data/raw/notes/`, the pipeline will automatically load and train on the genuine notes.
-            """)
         else:
             df_notes, text_col, unsup = _load_notes_data_cached(str(note_files[0]))
             total_cardio_count = int(df_notes["cardiac_mentions_count"].sum())
@@ -814,12 +798,7 @@ def render_labs_notes_reports() -> None:
         if not hist_files:
             ui.empty_state(
                 "Patient History dataset not found",
-                f"No files were found in <code>{paths.raw_history}</code>.<br><br>"
-                "<b>Download instructions:</b><br>"
-                "1. Open <a href='https://huggingface.co/datasets/ekacare/ekacare_medical_history_summarisation' target='_blank' style='color:#38BDF8'>ekacare/ekacare_medical_history_summarisation</a>.<br>"
-                "2. Accept the dataset terms and download <code>test-ekacare_medical_history_summarisation-00000-of-00001.parquet</code>.<br>"
-                f"3. Place it in <code>{paths.raw_history}</code>.<br><br>"
-                "Dataset content: 58 longitudinal patient journeys with vital-sign trends (MIT licence, general medicine, not cardiology-only)."
+                "Demo data is not available in this deployment. See the project report for results."
             )
         else:
             df_hist = _load_history_data_cached(str(hist_files[0]))
@@ -861,11 +840,7 @@ def render_labs_notes_reports() -> None:
         if not img_profile["available"]:
             ui.empty_state(
                 "Report images not found",
-                f"No image files were found in <code>{paths.raw_report_images}</code>.<br><br>"
-                "<b>Instructions:</b><br>"
-                "1. Visit <a href='https://huggingface.co/datasets/ekacare/medical_records_parsing_validation_set' target='_blank' style='color:#38BDF8'>ekacare/medical_records_parsing_validation_set</a>.<br>"
-                "2. Download the 288 lab-report and prescription images or <code>0000.parquet</code>.<br>"
-                f"3. Place them in <code>{paths.raw_report_images}</code>."
+                "Demo data is not available in this deployment. See the project report for results."
             )
         else:
             ui.metric_row([
@@ -907,12 +882,7 @@ def render_labs_notes_reports() -> None:
         if not echo_profile["available"]:
             ui.empty_state(
                 "Echocardiography reports not found",
-                f"No echo report files were found in <code>{paths.raw_echo_reports}</code>.<br><br>"
-                "<b>Access instructions:</b><br>"
-                "1. Visit <a href='https://huggingface.co/datasets/InfoBayAI/Echocardiography-Reports-Dataset' target='_blank' style='color:#38BDF8'>InfoBayAI/Echocardiography-Reports-Dataset</a>.<br>"
-                "2. Request access or contact <code>datareq@infobay.ai</code>.<br>"
-                f"3. Place downloaded reports into <code>{paths.raw_echo_reports}</code>.<br><br>"
-                "<b>Documented Limitation:</b> The InfoBayAI dataset origin is not confirmed as Indian. This geographic limitation must be recorded in all reports."
+                "Demo data is not available in this deployment. See the project report for results."
             )
 
         st.markdown("#### Validated Clinical Echocardiography Regex Extractor")

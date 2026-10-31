@@ -8,5 +8,10 @@ data/raw/*
 data/raw/*/*
 data/raw/*/*/*
 data/processed/*
+models/*.joblib
+
+# Explicit tracked exceptions
 !data/raw/.gitkeep
 !data/processed/.gitkeep
+!models/.gitkeep
+!data/raw/Cardiovascular_Disease_Dataset.csv

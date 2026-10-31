@@ -71,6 +71,10 @@ class Paths:
     def raw_report_images(self) -> Path: return self.raw / "report_images"
     @property
     def raw_echo_reports(self) -> Path: return self.raw / "echo_reports"
+    @property
+    def demo(self) -> Path: return self.root / "data" / "demo"
+    @property
+    def demo_labs(self) -> Path: return self.demo / "labs_cardiometabolic_sample.parquet"
 
     def ensure(self) -> None:
         for p in (self.raw, self.processed, self.models, self.tables, self.figures, self.reports,

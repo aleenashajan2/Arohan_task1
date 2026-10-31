@@ -125,6 +125,20 @@ def find_nidaankosha_files(paths: Paths) -> list[Path]:
     return candidates
 
 
+def get_active_labs_source(paths: Paths) -> tuple[Path | None, bool]:
+    """Return the active labs parquet file and whether it is the derived demo sample.
+
+    Returns (path, is_demo). Uses full local files if present; otherwise falls back
+    to data/demo/labs_cardiometabolic_sample.parquet.
+    """
+    full_files = find_nidaankosha_files(paths)
+    if full_files:
+        return full_files[0], False
+    if hasattr(paths, "demo_labs") and paths.demo_labs.exists():
+        return paths.demo_labs, True
+    return None, False
+
+
 def discover_lab_tests(parquet_path: Path, max_rows: int = 50000) -> pd.DataFrame:
     """Scan real parquet file and return data-driven summary of test names, counts, units, and LOINCs."""
     import pyarrow.parquet as pq

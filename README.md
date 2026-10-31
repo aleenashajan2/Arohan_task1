@@ -1,13 +1,18 @@
 # AROHAN — Clinical Data Intelligence
 
 Research prototype for **clinical-data-based cardiovascular disease detection and analysis**, with an Indian-population focus.
-It is a local Streamlit dashboard (dark theme) with six pages:
-1. **Overview** *(Key metrics, target distribution, feature distributions, held-out model comparison, implementation status, and research limitations)*
+It is a local and cloud-deployable Streamlit dashboard (dark theme) with five core pages:
+1. **Overview** *(Key metric cards, target distribution, feature distributions, held-out model comparison)*
 2. **Dataset and Data Quality** *(Dataset inspection, schema dictionary, missingness, anomaly screening, correlations, and preprocessing)*
 3. **Supervised Learning** *(Train/test split, logistic regression, decision tree, random forest, hybrid models, PR/ROC curves, threshold analysis, feature importance, ablation, and single-patient experimental prediction)*
 4. **Unsupervised Learning** *(Exploratory K-Means clustering and PCA on continuous measurements)*
-5. **Labs, Notes and Reports** *(Laboratory data analysis (NidaanKosha), clinical notes NLP, patient history trajectories, report image profiling, and echo parameter extraction & fusion readiness)*
-6. **Clinical Data Coverage** *(Modality status, directory checksums, acquisition registry, and multi-center fusion matrix)*
+5. **Labs, Notes and Reports** *(Laboratory data analysis (NidaanKosha demo/full), clinical notes NLP, patient history trajectories, report image profiling, and echo parameter extraction & fusion readiness)*
+
+---
+
+## Dataset Attribution & Licensing
+- **Mendeley Cardiovascular Disease Dataset**: Acquired from an Indian multispecialty hospital. Citation: Mendeley Data, DOI: [10.17632/dzz48mvjht.1](https://data.mendeley.com/datasets/dzz48mvjht/1), Version 1, 16 April 2021. Licensed under Creative Commons Attribution 4.0 International ([CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)). Committed directly in `data/raw/Cardiovascular_Disease_Dataset.csv` for cloud demonstration.
+- **NidaanKosha-100k-V1.0 Demo Sample**: Derived from Eka Care & IndiaAI. Licensed under Creative Commons Attribution-ShareAlike 4.0 International ([CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/)). Distributed as a 25,000-reading sample in `data/demo/labs_cardiometabolic_sample.parquet`.
 
 ---
 

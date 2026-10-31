@@ -38,7 +38,8 @@ def scan_modality_status(paths: config.Paths) -> dict[str, Any]:
     lab_files = []
     if paths.raw_labs.exists():
         lab_files = list(paths.raw_labs.glob("*.parquet")) + list((paths.raw_labs / "data").glob("*.parquet"))
-    has_labs = len(lab_files) > 0
+    has_demo_labs = hasattr(paths, "demo_labs") and paths.demo_labs.exists()
+    has_labs = len(lab_files) > 0 or has_demo_labs
 
     # Notes
     note_files = []

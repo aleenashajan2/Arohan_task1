@@ -1,0 +1,82 @@
+[
+  {
+    "name": "Cardiovascular Disease Dataset (Mendeley)",
+    "modality": "Structured clinical measurements",
+    "source_url": "https://data.mendeley.com/datasets/dzz48mvjht/1",
+    "version_date": "Version 1, 16 April 2021",
+    "licence": "CC BY 4.0",
+    "acquisition_date": "2026-10-24",
+    "filenames": [
+      "Cardiovascular_Disease_Dataset.csv"
+    ],
+    "sizes_bytes": [
+      43633
+    ],
+    "sha256": [
+      "9376367dde41e79e432d6402ea5d9e44223fc318ff54ed09966d721923947d1e"
+    ],
+    "record_count": 1000,
+    "columns": [
+      "patientid",
+      "age",
+      "gender",
+      "chestpain",
+      "restingBP",
+      "serumcholestrol",
+      "fastingbloodsugar",
+      "restingrelectro",
+      "maxheartrate",
+      "exerciseangia",
+      "oldpeak",
+      "slope",
+      "noofmajorvessels",
+      "target"
+    ],
+    "known_limitations": [
+      "Single multispecialty hospital in India; small sample size (1,000 subjects)",
+      "Inconsistent landing page metadata (14 features vs 12 features description)",
+      "Binary cross-sectional presence/absence label (no specific cardiac condition named, unverified outcome definition)",
+      "No shared patient linkage with other hospital modalities"
+    ],
+    "updated_at": "2026-10-30T06:16:51.347012+00:00"
+  },
+  {
+    "name": "NidaanKosha-100k-V1.0 (Eka Care)",
+    "modality": "Laboratory reports",
+    "source_url": "https://huggingface.co/datasets/ekacare/NidaanKosha-100k-V1.0",
+    "version_date": "V1.0, 2024",
+    "licence": "CC-BY-SA-4.0",
+    "acquisition_date": "2026-10-30",
+    "filenames": [
+      "train-00000-of-00002.parquet",
+      "train-00001-of-00002.parquet"
+    ],
+    "sizes_bytes": [
+      87839466,
+      87777017
+    ],
+    "sha256": [
+      "a55637e03e5960aec43b092efc657f0b91a0e8c16703d7d8bb0349ccdcdc0276",
+      "178bccdcbb56752d371273bd7b88aca9dd35d2291719e2c114ae9e24851a4168"
+    ],
+    "record_count": 6844304,
+    "columns": [
+      "document_id",
+      "age",
+      "gender",
+      "test_name",
+      "display_ranges",
+      "value",
+      "unit",
+      "specimen",
+      "loinc"
+    ],
+    "known_limitations": [
+      "Collected from diverse diagnostic facilities across India (100,000 subjects)",
+      "Values extracted automatically via vision LLM (Parrotlet) from images/PDFs; contains extraction noise and format variations",
+      "No diagnostic disease or CVD outcome labels; unsupervised/reference-range profiling only",
+      "All document identifiers randomized to prevent PII; no cross-dataset patient linkage possible"
+    ],
+    "updated_at": "2026-10-30T06:16:55.318946+00:00"
+  }
+]

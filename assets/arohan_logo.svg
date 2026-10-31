@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="220" height="48" viewBox="0 0 220 48">
+  <rect x="2" y="6" width="36" height="36" rx="9" fill="#151F32" stroke="#2B3A50"/>
+  <polyline points="7,25 14,25 18,15 23,35 27,22 30,25 34,25" fill="none" stroke="#38BDF8" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="48" y="25" font-family="Segoe UI, Arial, sans-serif" font-size="20" font-weight="800" fill="#F1F5F9" letter-spacing="2">AROHAN</text>
+  <text x="48" y="40" font-family="Segoe UI, Arial, sans-serif" font-size="10" fill="#A7B4C8">Clinical Data Intelligence</text>
+</svg>

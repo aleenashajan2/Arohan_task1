@@ -1,0 +1,12 @@
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# Patient-level data and raw parquet files stay out of git version control
+data/raw/*
+data/raw/*/*
+data/raw/*/*/*
+data/processed/*
+!data/raw/.gitkeep
+!data/processed/.gitkeep
